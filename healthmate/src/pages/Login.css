@@ -1,0 +1,21 @@
+/* custom.css */
+
+.auth-container {
+    background-color: #f4f6f9;
+    padding: 30px;
+  }
+  
+  .auth-container .btn-primary {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+  }
+  
+  .auth-container .btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+  }
+  
+  .auth-container .alert {
+    text-align: center;
+  }
+  

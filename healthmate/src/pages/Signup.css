@@ -1,0 +1,36 @@
+/* Centering the form */
+.signup-card {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .signup-card:hover {
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Dark Mode */
+  @media (prefers-color-scheme: dark) {
+    .signup-card {
+      background: #1e1e1e;
+      color: white;
+    }
+  
+    .signup-card input {
+      background: #2e2e2e;
+      color: white;
+      border: 1px solid #555;
+    }
+  }
+  
+  /* Mobile-friendly adjustments */
+  @media (max-width: 576px) {
+    .signup-card {
+      padding: 15px;
+    }
+  }
+  
+  
