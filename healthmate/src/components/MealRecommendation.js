@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-import { motion } from 'framer-motion'; // Import Framer Motion for animations
-import Sidebar from '../pages/Sidebar';
-import './MealRecommendation.css';  
+import Sidebar from '../pages/Sidebar';  // Import Sidebar Component
+import './MealRecommendation.css';  // Import the CSS file here
 
 const MealRecommendation = ({ bmi }) => {
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false); // Manage sidebar visibility
 
   let category = '';
   let mealPlan = {};
 
+  // BMI Categories and Meal Plans
   if (bmi < 18.5) {
     category = 'Underweight';
     mealPlan = {
@@ -47,49 +47,63 @@ const MealRecommendation = ({ bmi }) => {
   return (
     <Container className="my-4">
       <Row>
-        <Col xs={12} className="text-center mb-3">
-          <Button 
-            variant="secondary" 
-            onClick={() => setShowSidebar(!showSidebar)}
-          >
-            {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'}
-          </Button>
-        </Col>
+        {/* Button to toggle sidebar */}
+        <Button 
+          variant="secondary" 
+          className="mb-3" 
+          onClick={() => setShowSidebar(!showSidebar)}
+        >
+          {showSidebar ? 'Hide Sidebar' : 'Show Sidebar'}
+        </Button>
 
-        {showSidebar && <Sidebar />} 
+        {/* Sidebar visible based on state */}
+        {showSidebar && <Sidebar />} {/* Sidebar will be visible only when showSidebar is true */}
 
-        <Col xs={12}>
+        <Col xs={12} md={9}>
           <h2 className="text-center mb-4">Meal Recommendations for {category} Category</h2>
           
-          <Row className="g-4 justify-content-center">
-            {Object.keys(mealPlan).map((meal, index) => (
-              <Col xs={12} sm={6} md={3} key={index}>
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.9 }} 
-                  animate={{ opacity: 1, scale: 1 }} 
-                  transition={{ duration: 0.5, delay: index * 0.2 }} 
-                  whileHover={{ scale: 1.05 }} 
-                >
-                  <Card className="h-100 shadow-lg border-0 meal-card">
-                    <Card.Body>
-                      <Card.Title className="text-center">{meal.charAt(0).toUpperCase() + meal.slice(1)}</Card.Title>
-                      <Card.Text>{mealPlan[meal]}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                </motion.div>
-              </Col>
-            ))}
+          <Row className="g-4">
+            <Col xs={12} sm={6} md={3}>
+              <Card className="h-100 shadow-lg border-0">
+                <Card.Body>
+                  <Card.Title className="text-center">Breakfast</Card.Title>
+                  <Card.Text>{mealPlan.breakfast}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col xs={12} sm={6} md={3}>
+              <Card className="h-100 shadow-lg border-0">
+                <Card.Body>
+                  <Card.Title className="text-center">Lunch</Card.Title>
+                  <Card.Text>{mealPlan.lunch}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col xs={12} sm={6} md={3}>
+              <Card className="h-100 shadow-lg border-0">
+                <Card.Body>
+                  <Card.Title className="text-center">Dinner</Card.Title>
+                  <Card.Text>{mealPlan.dinner}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+
+            <Col xs={12} sm={6} md={3}>
+              <Card className="h-100 shadow-lg border-0">
+                <Card.Body>
+                  <Card.Title className="text-center">Snacks</Card.Title>
+                  <Card.Text>{mealPlan.snacks}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
           </Row>
 
           <div className="text-center mt-4">
-            <motion.div 
-              whileHover={{ scale: 1.1 }} 
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button variant="primary" onClick={() => alert("Save your meal plan")}>
-                Save Plan
-              </Button>
-            </motion.div>
+            <Button variant="primary" onClick={() => alert("Save your meal plan")}>
+              Save Plan
+            </Button>
           </div>
         </Col>
       </Row>

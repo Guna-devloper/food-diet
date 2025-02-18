@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { Card, Form, Button, ProgressBar, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti"; // Importing Confetti for party pop effect
-import "./BMICalculator.css";
-
-const BMICalculator = () => {
+import "./BMICalculator.css"
+const BMICalculator = ({ onBmiCalculated }) => {
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [bmi, setBMI] = useState(null);
   const [category, setCategory] = useState("");
-  const [calories, setCalories] = useState(null);
   const [showModal, setShowModal] = useState(false); // To control modal visibility
   const [isConfettiVisible, setIsConfettiVisible] = useState(false); // To trigger confetti animation
 
@@ -21,7 +19,7 @@ const BMICalculator = () => {
       const bmiValue = (weight / (heightInMeters * heightInMeters)).toFixed(2);
       setBMI(bmiValue);
       determineCategory(bmiValue);
-      calculateCalories(bmiValue, weight);
+      onBmiCalculated(bmiValue); // Pass calculated BMI to the parent
 
       // Trigger confetti and show modal
       setIsConfettiVisible(true);
@@ -29,23 +27,9 @@ const BMICalculator = () => {
     }
   };
 
-  const calculateCalories = (bmiValue, weight) => {
-    let baseCalories = 0;
-    if (bmiValue < 18.5) {
-      baseCalories = weight * 35; // Higher calories for underweight
-    } else if (bmiValue >= 18.5 && bmiValue < 24.9) {
-      baseCalories = weight * 30; // Normal calorie intake
-    } else if (bmiValue >= 25 && bmiValue < 29.9) {
-      baseCalories = weight * 25; // Lower calories for overweight
-    } else {
-      baseCalories = weight * 20; // Lowest for obese category
-    }
-    setCalories(Math.round(baseCalories)); // Round to nearest whole number
-  };
-
   const handleCloseModal = () => {
     setShowModal(false);
-    navigate("/dashboard", { state: { bmi, category, calories } }); // Pass data via state
+    navigate("/meal-recommendation"); // Navigate to meal recommendation page after modal closes
   };
 
   const determineCategory = (bmiValue) => {
@@ -113,12 +97,11 @@ const BMICalculator = () => {
         <Modal.Body>
           <h4>Your BMI: {bmi}</h4>
           <h5 className={`text-${getProgressVariant()}`}>{category}</h5>
-          <h6>Recommended Daily Caloric Intake: {calories} kcal</h6>
           <ProgressBar now={bmi} max={40} variant={getProgressVariant()} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Close & Go to Dashboard
+            Close & Go to Meal Recommendation
           </Button>
         </Modal.Footer>
       </Modal>
